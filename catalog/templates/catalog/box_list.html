@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>Список арендаторов</title>
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="{% static 'css/catalog.css' %}">
 </head>
 <body>
@@ -14,16 +14,24 @@
     <a href="{% url 'search_form' %}">Перейти к поиску по арендаторам</a>
 
     {% for box in boxes %}
-    <div>
+    <div class="container">
         <h3>Номер бокса: {{ box.box_num }} </h3>
         <p>ФИО арендатора: {{ box.person }} </p>
-        <p>Срок аренды: с {{ box.registered}} по {{ box.ended}} </p>
+        <p>Срок аренды: {{ box.registered}} - {{ box.ended}} </p>
         <p>Марка машины: {{ box.get_auto_display }}, гос. номер: {{ box.gos_num }}</p>
+        <p>{% now "Y-m-d" as todays_date %}</p>
+
+        {% if box.registered|date:"Y-m-d" <= todays_date and todays_date <= box.ended|date:"Y-m-d" %}
 
         {% if box.has_pass == True %}
         <p>Есть пропуск. Сдать? <a href="{% url 'return_pass' pk=box.pk %}">Сдать</a></p>
         {% else %}
         <p>Пропуска нет. Получить? <a href="{% url 'get_pass' pk=box.pk %}">Получить</a></p>
+        {% endif %}
+
+        {% else %}
+        <p class="text-error">К сожалению, аренда данного бокса истекла.</p>
+
         {% endif %}
 
     </div>

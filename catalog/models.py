@@ -10,12 +10,12 @@ class Arendator(models.Model):
         ('L', 'Lada'),
     )
 
-    person = models.CharField(max_length=30, verbose_name='ФИО')
-    gos_num = models.CharField(max_length=9, verbose_name='Гос. номер')
-    box_num = models.CharField(max_length=3, unique=True, verbose_name='Номер бокса')
-    auto = models.CharField(max_length=1, choices=AUTO_MARK, verbose_name='Марка машины')
+    person = models.CharField(blank=True,max_length=30, verbose_name='ФИО')
+    gos_num = models.CharField(blank=True,max_length=9, verbose_name='Гос. номер')
+    box_num = models.CharField(blank=True,max_length=3, unique=True, verbose_name='Номер бокса')
+    auto = models.CharField(blank=True,max_length=1, choices=AUTO_MARK, verbose_name='Марка машины')
     has_pass = models.BooleanField(default=False, verbose_name='Пропуск получен')
-    registered = models.DateField(default=timezone.now, verbose_name='Дата начала аренды')
+    registered = models.DateField(blank=True,default=timezone.now, verbose_name='Дата начала аренды')
     ended = models.DateField(blank=True, null=True, verbose_name='Дата окончания аренды')
 
 
